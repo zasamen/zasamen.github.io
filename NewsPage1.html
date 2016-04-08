@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="../MafiaLab/css/font-awesome.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#responsive-menu">
+                    <span class="sr-only">Open navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><img src="./img/Logo.jpg" class="img img-responsive"></a>
+            </div>
+            <div class="collapse navbar-collapse navbar-right" id="responsive-menu">
+                <ul class="nav navbar-nav">
+                    <li><a href="ImageGallery.html">Галерея изображений</a> </li>
+                    <li><a href="#">И сюда ходи</a> </li>
+                    <li><a href="#">А сюда не ходи</a> </li>
+                </ul>
+                <form action="" class="navbar-form navbar-right">
+                    <div class="form-group form-group-sm ">
+                        <input type="text" class="form-control input-sm" placeholder="E-mail" value="">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-sm" placeholder="password" value="">
+                    </div>
+                    <button type="submit" class="btn btn-primary input-sm fade in" data-target="#modal-1" data-toggle="modal">
+                        <i class="fa fa-sign-in"></i> Sign in
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="thumbnail col-xs-12 ">
+        <img src="./img/Main/News/1.jpg" alt="" class="img-responsive">
+        <div class="caption">
+            <h3 class="h3 centered"><a href="#">Сериал продлен на второй сезон</a></h3>
+            <div class="justified">
+                <p> Приятную новость для любителей исторических драм и криминальных саг сообщает Variety. Руководство канала AMC приняло решение продлить на второй сезон сериал «Рождение мафии: Нью-Йорк» (The Making of the Mob: New York).</p>
+                <p>Этим летом документально-игровое шоу заслужило положительные отзывы критиков и принесло каналу AMC солидные рейтинги. Как сообщается, создатели сериала планируют перенести действие второго сезона из Нью-Йорка в Чикаго. В центре сюжета новой главы истории об американской мафии окажется путь знаменитого гангстера Аль Капоне к вершине преступной империи и его противостояние со спецагентом министерства финансов Элиотом Нессом.</p>
+                <p>«Мы остались в полном восторге от сотрудничества с AMC в работе над первым сезоном, — отметил президент продюсерской компании Stephen David Entertainment Стивен Дэвид. — Рассказать зрителям о приключениях Аль Капоне было нашей давней мечтой».</p>
+                <p>Премьера восьмисерийного второго сезона криминальной драмы состоится в 2016 году.</p>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <ul class="pager">
+            <li class="previous disabled"><a href="#"><i class="fa fa-chevron-circle-left"></i>Prev</a> </li>
+            <li class="next"><a href="#">Next<i class="fa fa-chevron-circle-right"></i></a> </li>
+        </ul>
+    </nav>
+</div>
+<!-- Origional snipet by msurguy<http://bootsnipp.com/msurguy>, I editted his snipet so that it works with bootstrap 3.3 -->
+<div class="container">
+    <hr>
+    <div class="row">
+        <div class="col-xs-8">
+            <ul class="list-unstyled list-inline pull-left">
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Privacy</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-4">
+            <p class="text-muted pull-right">© 2016 mr. KVG . All rights reserved</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-1">
+    <div class="modal-dialog modal-xs" >
+        <div class="modal-content ">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    <i class="fa fa-close"></i>
+                </button>
+                <h4 class="modal-title">
+                    Вход недоступен
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>По техническим причинам вход в учетную запись не доступен. Наслаждайтесь анонимным режимом</p>
+            </div>
+            <div class="modal-footer">
+                <button class=" byn btn-danger" type="button" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.js"></script>
+<script src="js/salvattore.js"></script>
+</body>
+</html>

@@ -2,8 +2,8 @@
     margin-top: 50px;
 }
 .carousel-inner {
-    width: 50%;
-    height: 50%;
+    width: 90%;
+    height: 90%;
     margin: auto;
 }
 a.spoiler.collapsed:after{
@@ -32,7 +32,7 @@ a.spoiler:after{
 }
 @media screen and (min-width: 1200px) {
     .masonry[data-columns]::before {
-        content: '4 .col-xs-3';
+        content: '3 .col-xs-4';
     }
 }
 .navbar-inverse{
@@ -40,4 +40,10 @@ a.spoiler:after{
 }
 body{
     background: #C7BABA;
+}
+.centered{
+    text-align: center;
+}
+.justified{
+    text-align: justify;
 }
