@@ -47,3 +47,6 @@ body{
 .justified{
     text-align: justify;
 }
+body{
+    display: none;
+}
