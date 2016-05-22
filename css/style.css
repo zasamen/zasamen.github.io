@@ -6,6 +6,27 @@
     height: 90%;
     margin: auto;
 }
+
+.myclass{
+    padding-left: 0;
+    padding-right: 0;
+}
+@media screen and (max-width: 991px){
+    .carousel-inner {
+        width: 90%;
+        height: auto;
+        margin: auto;
+    }
+}
+.reg-form {
+    width:100%;
+    margin:auto;
+    margin-top:-50px;
+}
+.mycomment{
+    border-width: 100px;
+    border-color: #290f8c;
+}
 a.spoiler.collapsed:after{
     content:" [+]";
 }
@@ -47,6 +68,4 @@ body{
 .justified{
     text-align: justify;
 }
-body{
-    display: none;
-}
+
