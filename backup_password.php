@@ -1,23 +1,22 @@
 <?php
-require_once ('session_get.php');
-require_once ('psmarty.php');
-require_once ('navigation.php');
-require_once ('show_skeleton_modal.php');
+require_once ('init.php');
 
-$smarty->assign('navigation',$navigation);
-$smarty->assign('title', "Backup");
+echo get_password_backup_page($connection,$my_session);
+show_modal();
 
-$sub_smarty=new PSmarty();
-if(isset($_GET['error_message'])&&isset($_GET['show_modal'])) {
-    $smarty->assign('modal_body', $_GET['error_message']);
-}elseif(isset($_GET['error_message']))
-    $sub_smarty->assign('error_message', $_GET['error_message']);
-else
-    $sub_smarty->assign('error_message', "");
-$sub_smarty->assign('logged',$logged);
-$sub_smarty->assign('superuser',$superuser);
-$smarty->assign('content', $sub_smarty->fetch('backup_password.tpl'));
-$smarty->display('skeleton.tpl');
-if(isset($_GET['error_message'])&&isset($_GET['show_modal'])){
-    show_modal();
+function get_password_backup_page($connection,$my_session){
+    $smarty=new PSmarty();
+    $smarty->assign('navigation',get_navigation($connection,$my_session));
+    $smarty->assign('title', "Backup");
+    $smarty->assign('content', get_backup_password_content($my_session));
+    set_modal_or_error($smarty);
+    return $smarty->fetch('skeleton.tpl');
+}
+
+function get_backup_password_content($mysession)
+{
+    $smarty = new PSmarty();
+    set_modal_or_error($smarty);
+    $smarty->assign('my_session', $mysession);
+    return $smarty->fetch('backup_password_content.tpl');
 }

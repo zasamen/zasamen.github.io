@@ -1,28 +1,26 @@
 <?php
-session_start();
+require_once ('init.php');
 
-$logged = 1;
-if(isset($_SESSION['login'])){
-    $login = $_SESSION['login'];
-}
-else{
-    $login = "";
-}
-if(!isset($_SESSION['logged']) or empty($_SESSION['logged'])){
-    $logged = 0;
-}
-$group_id="0";
-$name="";
-$surname="";
-if($login != ""){
-    include_once('mafia_db.php');
-    $query_result = mysqli_query($connection, "SELECT * FROM `users` WHERE `login` LIKE '$login'");
-    $row = mysqli_fetch_array($query_result);
-    $group_id = $row['group_id'];
-    $name=$row['name'];
-    $surname=$row['surname'];
+function get_session_started($connection)
+{
+    session_start();
+    $my_session = [];
+    $my_session['logged'] = 1;
+    if (isset($_SESSION['login'])&&(!empty($_SESSION['logged']))) {
+        $login=$_SESSION['login'];
+        $my_session['login'] = $login;
+        $row = mysqli_fetch_array(mysqli_query($connection, "SELECT * FROM `users` WHERE `login` LIKE '$login'"));
+        $my_session['superuser'] = ($row['group_id']==2)?1:0;
+        $my_session['name']=$row['name'];
+        $my_session['surname'] = $row['surname'];
+    } else{
+        $my_session['logged'] = 0;
+        $my_session['login'] = "";
+        $my_session['superuser'] =0;
+        $my_session['name']='';
+        $my_session['surname'] = '';
+    }
 
+    return $my_session;
 }
-else{
-    $group_id= "0";
-}
+$my_session=get_session_started($connection);

@@ -12,30 +12,30 @@
             </div>
             <div class="collapse navbar-collapse navbar-right" id="responsive-menu">
                 <ul class="nav navbar-nav">
-                    {if $superuser==1}<li><a href="" style="color=red">DON</a> </li>{/if}
+                    {if $my_session.superuser==1}<li><a href="" style="color=red">DON</a> </li>{/if}
                     <li><a href="image_gallery.php">Image gallery</a> </li>
-                    {if $logged==1}<li><a href="user_page.php" style="">Welcome, {$name} {$surname}</a> </li>{/if}
+                    {if $my_session.logged==1}<li><a href="user_page.php" style="">Welcome, {$my_session.name} {$my_session.surname}</a> </li>{/if}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Episodes ></a>
                         <ul class="dropdown-menu">
-                            {foreach $episode_numbers as $episode_number}
-                                <li><a href="episode.php?number={$episode_number.0}">Episode{$episode_number.0}> </a> </li>
+                            {foreach $episode_ids as $episode_id}
+                                <li><a href="episode.php?episode_id={$episode_id.0}">Episode{$episode_id.0}> </a> </li>
                             {/foreach}
-                            {if $logged==1}
-                                <li><a href="add_episode.php">Add episodes</a></li>
+                            {if $my_session.logged==1}
+                                <li><a href="episode_add.php">Add episodes</a></li>
                             {/if}
                         </ul>
                     </li>
                 </ul>
                 <form action="login.php{$get}" method="post" class="navbar-form navbar-right">
-                    {if !$logged==1}
+                    {if !$my_session.logged==1}
                         <div class="form-group form-group-sm " style="">
-                            <input name="login" type="text" class="form-control input-sm " placeholder="E-mail" value="">
+                            <input name="login" type="text" class="form-control input-sm " placeholder="login" value="">
                         </div>
                         <div class="form-group" style="">
                             <input name="pass" type="password" class="form-control input-sm" placeholder="password" value="">
                         </div>
-                        <button type="submit" class="btn btn-primary input-sm " style="" data-toggle="tooltip" title="Недоступно">
+                        <button type="submit" class="btn btn-primary input-sm " style="" data-toggle="tooltip" title="Войти">
                             Sign in
                         </button>
 
@@ -43,7 +43,7 @@
                             Sign up
                         </a>
                     {else}
-                        <a href="logout.php" class="btn btn-warning input-sm " style="">
+                        <a href="logout_.php" class="btn btn-warning input-sm " style="">
                             Log out
                         </a>
                     {/if}

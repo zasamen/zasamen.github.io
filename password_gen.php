@@ -1,5 +1,7 @@
 <?php
-function generatePassword($length = 8){
+require_once ('init.php');
+
+function generate_password($length = 8){
     $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
     $numChars = strlen($chars);
     $string = '';

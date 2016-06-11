@@ -1,12 +1,15 @@
 <?php
-require_once ('mafia_db.php');
-require_once ('psmarty.php');
-require_once ('session_get.php');
+require_once ('init.php');
 
-$comment_text=$_POST['comment_text'];
-$news_id=$_GET['news_id'];
-$error_message='';
+add_comment($connection,$my_session);
 
-$add_query = mysqli_query($connection, "INSERT INTO `news_comments`(`login`, `news_id`, `comment`)
-VALUES ('$login', '$news_id', '$comment_text')");
-header('Location: ' . explode("?", $_SERVER['HTTP_REFERER'])[0]."?id=$news_id");
+function add_comment($connection, $my_session)
+{
+    add_comment_to_news_by_user(
+        $connection,
+        $my_session['login'],
+        mysqli_real_escape_string($connection, htmlspecialchars($_GET['news_id'])),
+        $comment_text = mysqli_real_escape_string($connection, htmlspecialchars($_POST['comment_text']))
+    );
+    header('Location: ' . explode("?", $_SERVER['HTTP_REFERER'])[0] . request_get_to_string());
+}

@@ -1,28 +1,32 @@
 <?php
-require_once ('mafia_db.php');
-require_once ('psmarty.php');
-require_once ('password_gen.php');
-$mail=$_POST['email'];
-$error_message='';
+require_once ('init.php');
 
-if (mb_strlen($mail) == 0)
-    $error_message = $error_message . "\'E-mail\' can't be empty.<br>";
-elseif (!preg_match("/^\w[\w.-]*@(\w+\.)+\w{2,6}$/", $mail))
-    $error_message = $error_message . "Wrong symbols in E-mail (only Latin letters and Arab numbers).<br>";
-elseif (mb_strlen($error_message) != 0)
-    header('Location: '.explode("?", $_SERVER['HTTP_REFERER'])[0]."?error_message=$error_message");
-else{
-    $password=generatePassword();
+
+try_to_backup_user($connection);
+
+function try_to_backup_user($connection){
+    $mail=mysqli_real_escape_string($connection,htmlspecialchars($_POST['email']));
+    if (mb_strlen($mail) == 0) {
+        $error_message = "\'E-mail\' can't be empty.<br>";
+        header('Location: ' . explode("?", $_SERVER['HTTP_REFERER'])[0] . "?error_message=$error_message");
+    }
+    elseif (!preg_match("/^\w[\w.-]*@(\w+\.)+\w{2,6}$/", $mail)) {
+        $error_message = "Wrong symbols in E-mail (only Latin letters and Arab numbers).<br>";
+        header('Location: ' . explode("?", $_SERVER['HTTP_REFERER'])[0] . "?error_message=$error_message");
+    }
+    else{
+        send_new_password_to_user($connection,$mail);
+    }
+}
+
+function send_new_password_to_user($connection,$mail){
+    $password=generate_password();
     $md5_pass=md5($password);
     $activation=md5($mail.time());
-    echo mysqli_query($connection, "UPDATE `users` SET `new_password` = '$md5_pass',`activation`='$activation'  WHERE `email` = '$mail'");
+    add_new_password_to_user($connection,$md5_pass,$activation,$mail);
     include_once("smtp/SendMail.php");
-    $base_url='http:/mafia.maksim-barouski.ru/activation.php';
-    $to = $mail;
-    $subject = "Password_backup";
-    $link = $base_url."?activation=$activation";
-    $text = "For e-mail accept follow this link $link your new password= `$password`";
-    SendMail($to, $subject, $text);
-    file_put_contents('smtp.txt',$text);
+    $link = "http:/mafia.maksim-barouski.ru/activation.php?activation=$activation";
+    SendMail($mail, "Password_backup", "For e-mail accept follow this link $link your new password= `$password`");
+    file_put_contents('smtp.txt',"For e-mail accept follow this link $link your new password= `$password`");
     header('Location: '.explode("?", $_SERVER['HTTP_REFERER'])[0]."?error_message=Sent.");
 }

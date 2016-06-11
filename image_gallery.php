@@ -1,36 +1,39 @@
 <?php
-require_once ('mafia_db.php');
-require_once ('psmarty.php');
-require_once ('navigation.php');
-require_once ('show_skeleton_modal.php');
+require_once ('init.php');
 
-$smarty->assign('navigation',$navigation);
-
-$query_result = mysqli_query($connection, "SELECT * FROM `image_gallery` ORDER BY `publication_date`");
-$images = mysqli_fetch_all($query_result,MYSQLI_NUM);
-$images_count=count($images);
-$carousel_display=($images_count==0)?('display:none;'):'';
-$carousel_count=(($carousel_count=($images_count-7))>0)?$carousel_count:0;
-$images_display=(($images_count/7)==0)?('display:none'):'';
+$smarty=new PSmarty();
+$smarty->assign('navigation',get_navigation($connection,$my_session));
 $smarty->assign('title', "Gallery");
-
 if(isset($_GET['error_message'])) {
     $smarty->assign('modal_body',$_GET['error_message']);
 }
-$sub_smarty=new PSmarty();
-$sub_smarty->assign('images_count',$images_count);
-$sub_smarty->assign('carousel_count',$carousel_count);
-$sub_smarty->assign('carousel_display',$carousel_display);
-$sub_smarty->assign('images_display',$images_display);
-$sub_smarty->assign('images',$images);
-$sub_smarty->assign('logged',$logged);
-$sub_smarty->assign('superuser',$superuser);
-if(isset($_GET['error_message']))
-    $sub_smarty->assign('error_message', $_GET['error_message']);
-else
-    $sub_smarty->assign('error_message', "");
-$smarty->assign('content',$sub_smarty->fetch("image_gallery_content.tpl"));
+$smarty->assign('content',get_image_gallery_content($connection,$my_session));
 $smarty->display('skeleton.tpl');
-if(isset($_GET['error_message'])&&isset($_GET['show_modal'])){
-    show_modal();
+show_modal();
+
+function get_image_gallery_content($connection,$my_session)
+{
+    $images = mysqli_fetch_all(get_images_from_gallery_order_by_publication_date($connection), MYSQLI_NUM);
+
+    $images_count = count($images);
+    $images_shower = [];
+    $images_shower['images_count'] = $images_count;
+    if ($my_session['superuser']==0) {
+        $images_shower['carousel_count'] = ($images_count == 0) ? 0 : (($images_count > 7) ? 7 : $images_count);
+        $images_shower['carousel_display'] = ($images_count == 0) ? 0 : 1;
+        $images_shower['images_display'] = (($images_count / 7) == 0) ? 0 : 1;
+    }else{
+        $images_shower['carousel_count'] = 0;
+        $images_shower['carousel_display'] = 0;
+        $images_shower['images_display'] = $images_count>0?1:0;
+    }
+    $smarty = new PSmarty();
+    $smarty->assign('images_shower',$images_shower );
+    $smarty->assign('images', $images);
+    $smarty->assign('my_session', $my_session);
+    if (isset($_GET['error_message']))
+        $smarty->assign('error_message', $_GET['error_message']);
+    else
+        $smarty->assign('error_message', "");
+    return $smarty->fetch('image_gallery_content.tpl');
 }

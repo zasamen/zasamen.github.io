@@ -6,26 +6,26 @@
                 <div class="form-group form-group ">
                     <div class="">
                         <h4>E-mail</h4>
-                        <input name="email" type="email" class="form-control input-lg" placeholder="email" value="">
+                        <input name="email" type="email" class="form-control input-lg" placeholder="email" maxlength="60">
                     </div>
                     <div class="">
                         <h4>Login</h4>
-                        <input name="login" type="text" class="form-control input-lg" placeholder="login" value="">
+                        <input name="login" type="text" class="form-control input-lg" placeholder="login" maxlength="60">
                     </div>
                     <div class="">
                         <h4>Password</h4>
-                        <input name="password" type="password" class="form-control input-lg" placeholder="password" value="">
+                        <input name="password" type="password" class="form-control input-lg" placeholder="password" maxlength="64">
                     </div>
                     <div class="">
                         <h4>First Name</h4>
-                        <input name="name" type="text" class="form-control input-lg" placeholder="firstname" value="">
+                        <input name="name" type="text" class="form-control input-lg" placeholder="firstname" maxlength="30">
                     </div>
                     <div class="">
                         <h4>Second Name</h4>
-                        <input name="surname" type="text" class="form-control input-lg" placeholder="surname" value="">
+                        <input name="surname" type="text" class="form-control input-lg" placeholder="surname" maxlength="30">
                     </div>
-                    <button type="submit" class="btn btn-primary input-lg " data-toggle="tooltip" title="Недоступно">
-                        <i class="fa fa-sign-in"></i> Sign up
+                    <button type="submit" class="btn btn-primary input-lg " data-toggle="tooltip" title="Подтвердить">
+                        Sign up
                     </button>
                 </div>
             </form>

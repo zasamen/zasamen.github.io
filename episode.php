@@ -1,33 +1,49 @@
 <?php
-require_once ('session_get.php');
-require_once ('mafia_db.php');
-require_once ('psmarty.php');
-require_once ('navigation.php');
-require_once ('show_skeleton_modal.php');
+require_once ('init.php');
 
-$smarty->assign('navigation',$navigation);
+echo set_episode($connection,$my_session);
+show_modal();
+function set_episode($connection,$my_session)
+{
 
-$number=$_GET['number'];
-
-$query_result = mysqli_query($connection, "SELECT * FROM `episodes` WHERE `number`= $number");
-$episode = mysqli_fetch_array($query_result);
-
-$smarty->assign('title', "Episode".$number);
-$sub_smarty=new PSmarty();
-include_once ('session_assign.php');
-$sub_smarty->assign('episode',$episode);
-if(isset($_GET['error_message']))
-    $sub_smarty->assign('error_message', $_GET['error_message']);
-else
-    $sub_smarty->assign('error_message', "");
-$sub_smarty->assign('logged',$logged);
-$sub_smarty->assign('superuser',$superuser);
-$smarty->assign('content',$sub_smarty->fetch("episode_content.tpl"));
-$smarty->assign('episode',$episode);
-if(isset($_GET['error_message'])) {
-    $smarty->assign('modal_body',$_GET['error_message']);
+    $smarty = new PSmarty();
+    $smarty->assign('navigation', get_navigation($connection, $my_session));
+    $episode_id = mysqli_real_escape_string($connection, htmlspecialchars($_GET['episode_id']));
+    $smarty->assign('title', "Episode" . $episode_id);
+    $smarty->assign('content', get_episode_content($connection, $my_session, $episode_id));
+    set_modal_or_error($smarty);
+    return $smarty->fetch('skeleton.tpl');
 }
-$smarty->display('skeleton.tpl');
-if(isset($_GET['error_message'])&&isset($_GET['show_modal'])){
-    show_modal();
+
+
+function get_episode_content($connection,$my_session,$episode_id)
+{
+    $query_result = get_episode_by_episode_id($connection,$episode_id);
+    $episode = mysqli_fetch_array($query_result);
+    $smarty = new PSmarty();
+    $smarty->assign('episode', $episode);
+    set_modal_or_error($smarty);
+    $smarty->assign('next_id',get_next_episode_id($connection,$episode['publication_date']));
+    $smarty->assign('prev_id',get_prev_episode_id($connection,$episode['publication_date']));
+    $smarty->assign('my_session', $my_session);
+    return $smarty->fetch("episode_content.tpl");
+}
+
+
+function get_next_episode_id($connection, $publication_date){
+    $next_id = mysqli_fetch_array(
+        get_next_episode_id_by_publiation_date($connection,$publication_date),
+        MYSQLI_ASSOC
+    )['episode_id'];
+    if ($next_id == null) $next_id = '0';
+    return $next_id;
+}
+
+function get_prev_episode_id($connection, $publication_date){
+    $prev_id = mysqli_fetch_array(
+        get_prev_episode_id_by_publication_date($connection,$publication_date),
+        MYSQLI_ASSOC
+    )['episode_id'];
+    if ($prev_id == null) $prev_id = 0;
+    return $prev_id;
 }

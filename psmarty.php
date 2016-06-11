@@ -14,4 +14,3 @@
 		    $this->caching = false;
     	}
     }
-	$smarty=new PSmarty();

@@ -1,20 +1,19 @@
 <?php
-require_once ('mafia_db.php');
-require_once ('psmarty.php');
+require_once ('init.php');
 
-$login=$_POST['login'];
-$password=$_POST['password'];
-$mail=$_POST['email'];
-$name=$_POST['name'];
-$surname=$_POST['surname'];
+$login=mysqli_real_escape_string($connection,htmlspecialchars($_POST['login']));
+$password=mysqli_real_escape_string($connection,htmlspecialchars($_POST['password']));
+$mail=mysqli_real_escape_string($connection,htmlspecialchars($_POST['email']));
+$name=mysqli_real_escape_string($connection,htmlspecialchars($_POST['name']));
+$surname=mysqli_real_escape_string($connection,htmlspecialchars($_POST['surname']));
 $error_message='';
 
 if (mb_strlen($login) == 0)
-    $error_message = $error_message . "\'login\' can't be empty.<br>";
+    $error_message = $error_message . "login can't be empty.<br>";
 if (mb_strlen($name) == 0)
-    $error_message = $error_message . "\'name\' can't be empty.<br>";
+    $error_message = $error_message . "name can't be empty.<br>";
 if (mb_strlen($surname) == 0)
-    $error_message = $error_message . "\'surname\' can't be empty.<br>";
+    $error_message = $error_message . "surname can't be empty.<br>";
 if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $login))
     $error_message = $error_message . "There are illegal symbols in login<br>";
 if (mb_strlen($password) < 8)
@@ -22,7 +21,7 @@ if (mb_strlen($password) < 8)
 if (preg_match("/[^(\w)|(\x7F-\xFF)|(\s)]/", $password))
     $error_message = $error_message . "Wrong symbols in password (only Latin letters and Arab numbers).<br>";
 if (mb_strlen($mail) == 0)
-    $error_message = $error_message . "\'E-mail\' can't be empty.<br>";
+    $error_message = $error_message . "E-mail can't be empty.<br>";
 if (!preg_match("/^\w[\w.-]*@(\w+\.)+\w{2,6}$/", $mail))
     $error_message = $error_message . "Wrong symbols in E-mail (only Latin letters and Arab numbers).<br>";
 

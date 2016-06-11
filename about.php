@@ -1,31 +1,23 @@
 <?php
-require_once ('session_get.php');
-require_once ('mafia_db.php');
-require_once ('psmarty.php');
-require_once ('navigation.php');
-require_once ('show_skeleton_modal.php');
+require_once ('init.php');
 
-$smarty->assign('navigation',$navigation);
-$smarty->assign('title', "About");
-
-if(isset($_GET['error_message'])) {
-    $smarty->assign('modal_body',$_GET['error_message']);
+echo set_about($connection,$my_session);
+show_modal();
+function set_about($connection,$my_session)
+{
+    $smarty = new PSmarty();
+    set_modal_or_error($smarty);
+    $smarty->assign('title', "About");
+    $smarty->assign('navigation', get_navigation($connection, $my_session));
+    $smarty->assign('content', get_about($connection, $my_session));
+    return $smarty->fetch('skeleton.tpl');
 }
 
-$query_result = mysqli_query($connection, "SELECT * FROM `one_image_content` WHERE `header`='about'");
-$about = mysqli_fetch_array($query_result);
-
-$sub_smarty=new PSmarty();
-$sub_smarty->assign('about',$about);
-if(isset($_GET['error_message']))
-    $sub_smarty->assign('error_message', $_GET['error_message']);
-else
-    $sub_smarty->assign('error_message', "");
-$smarty->assign('content',$sub_smarty->fetch("about_content.tpl"));
-$sub_smarty->assign('logged',$logged);
-$sub_smarty->assign('superuser',$superuser);
-$smarty->display('skeleton.tpl');
-
-if(isset($_GET['error_message'])&&isset($_GET['show_modal'])){
-    show_modal();
+function get_about($connection,$mysession)
+{
+    $smarty = new PSmarty();
+    set_modal_or_error($smarty);
+    $smarty->assign('about',get_about_content($connection));
+    $smarty->assign('my_session', $mysession);
+    return $smarty->fetch('about_content.tpl');
 }
